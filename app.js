@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import userRoutes from './routes/userRoutes.js';
+import blogRoutes from './routes/blogRoutes.js'
 
 const app = express();
 app.use(express.json());
@@ -10,6 +11,7 @@ mongoose.connect(
 ).then(()=>app.listen(5000)).then(()=>console.log("Connected to the database and listening to port 5000...")).catch(err=>console.log(err));
 
 app.use("/api/user", userRoutes);
+app.use("/api/blog", blogRoutes);
 
 
 

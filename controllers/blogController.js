@@ -7,4 +7,59 @@ export const getAllBlogs = async(req,res,next) => {
     } catch (error) {
         console.log(error);
     }
+    if(!blogs) {
+        return res.status(400).json({message: "No Blogs found!.."});
+    } else {
+        return res.status(200).json({blogs});
+    }
+};
+
+export const addBlog = async (req,res,next) => {
+    try {
+        const blog = new Blog(req.body);
+        blog.save();
+        return res.status(201).json({blog});
+    } catch (error) {
+        console.log(console.log(error));
+    }
+};
+
+export const updateBlog = async (req,res,next) => {
+    const blogId = req.params.id;
+    const {title, description} = req.body;
+    let updatedBlog;
+    try {
+        updatedBlog = await Blog.findByIdAndUpdate(blogId, {
+            title,
+            description
+        })
+    } catch (error) {
+        console.log(error);
+    }
+    if(updatedBlog) return res.status(200).json({updatedBlog});
+    return res.status(500).json({message: "Unable to update blog.."})
+};
+
+export const getBlogById = async (req,res,next) => {
+    const blogId = req.params.id;
+    let existingBlog;
+    try {
+        existingBlog = await Blog.findById(blogId);
+        if(existingBlog) return res.status(200).json({existingBlog})
+        return res.status(400).json({message: "No blog found!!"})
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const deleteBlog = async (req,res,next) => {
+    const blogId = req.params.id;
+    let blog;
+    try {
+        blog = await Blog.findByIdAndDelete(blogId);
+        if(blog) return res.status(200).json({message: "Blog deleted successfully!!"})
+        return res.status(500).json({message: "Unable to delete blog"});
+    } catch (error) {
+        console.log(error);
+    }
 };
