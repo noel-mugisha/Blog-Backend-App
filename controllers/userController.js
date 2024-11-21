@@ -18,7 +18,7 @@ export const getAllUsers = async (req, res, next) => {
 
 // Signup function
 export const signup = async (req, res, next) => {
-    const { name, email, password } = req.body;
+    const { name, email, password} = req.body;
 
     // Check if the user already exists
     try {
@@ -37,6 +37,7 @@ export const signup = async (req, res, next) => {
         name,
         email,
         password: hashedPassword,
+        blogs: []
     });
 
     // Save the new user
